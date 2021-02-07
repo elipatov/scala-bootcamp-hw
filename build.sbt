@@ -27,6 +27,7 @@ version := "1.0"
 
 libraryDependencies ++= Seq(
   "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2",
+  "org.typelevel" %% "cats-core" % "2.3.1",
   "org.scalatest" %% "scalatest" % "3.2.3" % Test
 
 )
