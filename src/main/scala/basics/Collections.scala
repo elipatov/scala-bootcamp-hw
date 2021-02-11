@@ -3,7 +3,7 @@ package basics
 object Solution {
   // https://leetcode.com/problems/running-sum-of-1d-array/
   def runningSum(nums: Array[Int]): Array[Int] = {
-    nums.scanLeft(0) { (acc, el) => acc + el }.drop(1)
+    nums.scanLeft(0) { (acc, el) => acc + el }.tail
   }
 
   // https://leetcode.com/problems/shuffle-the-array/
@@ -29,16 +29,16 @@ object Solution {
     //val sortedXs = points.map(p => p(0)).sorted
     //sortedXs.zip(sortedXs.tail).map(ps => ps._2 - ps._1).max
     points
-      .map(p => p(0))
+      .map(p => p.head)
       .sorted
       .scanLeft[(Option[Int], Option[Int])](None, None)((acc, x1) =>
         acc match {
           case (Some(w), Some(x0)) => if (w > x1 - x0) (Some(w), Some(x1)) else (Some(x1 - x0), Some(x1))
-          case (None, Some(x0)) => (Some(x1 - x0), Some(x1))
-          case _                => (None, Some(x1))
+          case (None, Some(x0))    => (Some(x1 - x0), Some(x1))
+          case _                   => (None, Some(x1))
         }
       )
-      .flatMap(_._1)
+      .flatMap({case (w, _) => w})
       .max
   }
 }
