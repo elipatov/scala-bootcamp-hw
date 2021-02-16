@@ -29,18 +29,28 @@ object Rank {
 
 final case class Card(rank: Rank, suit: Suit)
 
-sealed abstract case class Hand(cards: List[Card])
-object Hand {
-  def createHand(cards: Set[Card]): Option[Hand] =
+sealed trait Hand
+sealed abstract case class TexasHoldemHand private(cards: List[Card]) extends Hand
+object TexasHoldemHand {
+  def create(cards: Set[Card]): Option[Hand] =
     cards match {
-      case cs if cs.size == 2 => Some(new Hand(cards.toList) {})
+      case cs if cs.size == 2 => Some(new TexasHoldemHand(cards.toList) {})
+      case _                    => None
+    }
+}
+
+sealed abstract case class OhamaHoldemHand private (cards: List[Card]) extends Hand
+object OhamaHoldemHand {
+  def create(cards: Set[Card]): Option[Hand] =
+    cards match {
+      case cs if cs.size == 4 => Some(new OhamaHoldemHand(cards.toList) {})
       case _                    => None
     }
 }
 
 sealed abstract case class Board(cards: List[Card])
 object Board {
-  def createBoard(cards: Set[Card]): Option[Board] =
+  def create(cards: Set[Card]): Option[Board] =
     cards match {
       case cs if cs.size == 5 => Some(new Board(cards.toList) {})
       case _                    => None
