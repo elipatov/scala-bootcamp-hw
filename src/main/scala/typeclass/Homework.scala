@@ -13,7 +13,7 @@ object Task2 {
 
   final case class User(id: String, name: String)
 
-  implicit val stringHash: Show[User] = usr => s"ID: ${usr.id} | Name: ${usr.name}"
+  implicit val showUser: Show[User] = usr => s"ID: ${usr.id} | Name: ${usr.name}"
 
   object Show {
     def apply[T](implicit instance: Show[T]): Show[T] = instance
@@ -95,7 +95,7 @@ object Task4 {
 object AdvancedHomework {
   // TODO: create a typeclass for flatMap method
   trait FlatMap[T[_]] {
-    def flatMap[A, B](value: T[A], fn: A => IterableOnce[B]): Seq[B]
+    def flatMap[A, B](value: T[A], fn: A => B): T[B]
   }
 
   object FlatMap {
@@ -103,16 +103,14 @@ object AdvancedHomework {
   }
 
   implicit class FlatMapExt[T[_]: FlatMap, A](value: T[A]) {
-    def flatMap[B](fn: A => Seq[B]): Seq[B] = FlatMap[T].flatMap(value, fn)
+    def flatMap[B](fn: A => B): T[B] = FlatMap[T].flatMap(value, fn)
   }
 
-  case class User(orderIds: List[Int])
-  case class Group[T](items: List[T])
-
-  implicit val flatMapGr: FlatMap[Group] = new FlatMap[Group] {
-    override def flatMap[A, B](value: Group[A], fn: A => IterableOnce[B]): Seq[B] = value.items.flatMap(fn)
+  case class Box[T](value: T)
+  implicit val flatMapBox: FlatMap[Box] = new FlatMap[Box] {
+    override def flatMap[A, B](obj: Box[A], fn: A => B): Box[B] = Box(fn(obj.value))
   }
 
-  val group = Group[User](List.empty)
-  val orders = group.flatMap(ug => ug.orderIds)
+  val intBox = Box(123)
+  val stringBox = intBox.flatMap[String](x => x.toString)
 }
