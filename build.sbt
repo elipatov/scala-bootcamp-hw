@@ -16,19 +16,24 @@ scalaVersion := "2.13.3"
 name := "scala-bootcamp-hw"
 organization := "elipatov"
 version := "1.0"
+val circeVersion = "0.13.0"
 
-// Note, it's not required for you to define these three settings. These are
-// mostly only necessary if you intend to publish your library's binaries on a
-// place like Sonatype or Bintray.
-
-
-// Want to use a published library in your project?
-// You can define other libraries as dependencies in your build like this:
+scalacOptions ++= Seq(
+  "-deprecation",
+  "-feature",
+  "-Ymacro-annotations",
+)
 
 libraryDependencies ++= Seq(
   "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2",
   "org.typelevel" %% "cats-core" % "2.3.1",
-  "org.scalatest" %% "scalatest" % "3.2.3" % Test
+  "io.circe" %% "circe-core" % circeVersion,
+  "io.circe" %% "circe-generic" % circeVersion,
+  "io.circe" %% "circe-generic-extras" % circeVersion,
+  "io.circe" %% "circe-optics" % circeVersion,
+  "io.circe" %% "circe-parser" % circeVersion,
+  "org.scalatest" %% "scalatest" % "3.2.3" % Test,
+  "org.scalaj" %% "scalaj-http" % "2.4.2" % Test,
 
 )
 
