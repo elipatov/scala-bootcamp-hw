@@ -101,7 +101,7 @@ object ImplicitsHomework {
       }
 
       def get(key: K): Option[V] = {
-        if (map.contains(key)) Some(map(key)) else None
+        Option.when(map.contains(key))(map(key))
       }
     }
 
