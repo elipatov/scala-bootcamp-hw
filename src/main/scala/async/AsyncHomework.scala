@@ -52,8 +52,9 @@ object AsyncHomework extends App {
     for {
       _      <- semaphore.acquire
       result <- IO.fromFuture(IO(processUrl(url)))
+      _      <- Sync[IO].delay(println(result))
       _      <- semaphore.release
-    } yield println(result)
+    } yield ()
   }
 
   private def processUrl(url: String): Future[String] = {
