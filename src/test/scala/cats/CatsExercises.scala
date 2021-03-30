@@ -17,5 +17,14 @@ class CatsExercises extends AnyFreeSpec with Matchers{
       val combinedMap = Semigroup[Map[String, Map[String, Int]]].combine(aMap, anotherMap)
       combinedMap.get("foo") should be(Some(Map("bar" -> 11)))
     }
+
+    "Monoid" in {
+      Monoid[Map[String, Int]].combineAll(List(Map("a" -> 1, "b" -> 2), Map("a" -> 3))) should be(
+        Map("a" -> 4, "b" -> 2)
+      )
+
+      Monoid[Map[String, Int]].combineAll(List()) should be(Map[String, Int]())
+    }
+
   }
 }
