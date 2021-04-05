@@ -10,10 +10,8 @@ import scala.concurrent.{Await, ExecutionContext, Future, Promise}
 import scala.io.{Source, StdIn}
 import scala.util.{Failure, Success}
 import cats._
-import cats.effect.{Async, IO}
+import cats.effect.{Async, IO, Sync}
 import cats.effect.concurrent.Semaphore
-import cats.effect.kernel.{Fiber, Outcome, Sync}
-import cats.effect.unsafe.implicits.global
 import cats.implicits.{catsSyntaxParallelTraverse, toTraverseFilterOps, toTraverseOps}
 
 import scala.concurrent.duration.{Duration, FiniteDuration}
@@ -32,8 +30,8 @@ import scala.concurrent.impl.Promise
   * Try to test it on http://google.com!
   */
 object AsyncHomework extends App {
-  private implicit val ec: ExecutionContext =
-    ExecutionContext.fromExecutor(Executors.newCachedThreadPool())
+  private implicit val ec: ExecutionContext = ExecutionContext.fromExecutor(Executors.newCachedThreadPool())
+  private implicit val cs = IO.contextShift(ec)
 
   //put your code there
   val parallelism    = 2
