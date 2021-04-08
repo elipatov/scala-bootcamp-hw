@@ -43,11 +43,15 @@ object Json {
     Parser.jsonOnly.parseOnly(s).option
 
   def print(json: Json): String = json match {
-    case JNull => ???
-    case JBoolean(_) => ???
-    case JNumber(_) => ???
-    case JString(_) => ???
-    case JArray(_) => ???
-    case JObject(_) => ???
+    case JNull => "null"
+    case JBoolean(x) => x.toString
+    case JNumber(x) => x.toString
+    case JString(x) => x
+    case JArray(xs) => "[" + xs.mkString(",") + "]"
+    case JObject(xs) => "{" +
+      xs.map(kv => {
+        val (k, v) = kv
+        s"$k: $v"
+      }).mkString(",") + "}"
   }
 }
