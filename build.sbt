@@ -27,7 +27,7 @@ scalacOptions ++= Seq(
 libraryDependencies ++= Seq(
   "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2",
   "org.typelevel" %% "cats-core" % "2.3.1",
-  "org.typelevel" %% "cats-effect" % "3.0-8096649",
+  "org.typelevel" %% "cats-effect" % "2.4.1",
   "io.circe" %% "circe-core" % circeVersion,
   "io.circe" %% "circe-generic" % circeVersion,
   "io.circe" %% "circe-generic-extras" % circeVersion,
