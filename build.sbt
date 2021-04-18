@@ -17,6 +17,7 @@ name := "scala-bootcamp-hw"
 organization := "elipatov"
 version := "1.0"
 val circeVersion = "0.13.0"
+val http4sVersion = "0.21.22"
 
 scalacOptions ++= Seq(
   "-deprecation",
@@ -28,6 +29,11 @@ libraryDependencies ++= Seq(
   "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2",
   "org.typelevel" %% "cats-core" % "2.3.1",
   "org.typelevel" %% "cats-effect" % "2.4.1",
+  "org.http4s" %% "http4s-dsl" % http4sVersion,
+  "org.http4s" %% "http4s-blaze-server" % http4sVersion,
+  "org.http4s" %% "http4s-blaze-client" % http4sVersion,
+  "org.http4s" %% "http4s-circe" % http4sVersion,
+  "org.http4s" %% "http4s-jdk-http-client" % "0.3.6",
   "io.circe" %% "circe-core" % circeVersion,
   "io.circe" %% "circe-generic" % circeVersion,
   "io.circe" %% "circe-generic-extras" % circeVersion,
