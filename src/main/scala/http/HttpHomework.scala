@@ -1,38 +1,24 @@
 package http
 
-import cats.data.EitherT
-import cats.{Applicative, Monad}
+import cats.Monad
 import cats.effect.concurrent.Ref
-import cats.effect.{Blocker, ContextShift, Effect, ExitCode, IO, IOApp, Sync}
+import cats.effect.{Blocker, ExitCode, IO, IOApp, Sync}
 import cats.syntax.all._
-import http.GuessClient.uri
 import http.GuessGame.ValidationError.{MinMax, SmallRange}
 import http.GuessGame.{ValidationError, maxAttempts, minRange}
-import http.Protocol.{
-  GuessGame,
-  GuessResult,
-  MoveRequest,
-  MoveResponse,
-  NewGameRequest,
-  NewGameResponse
-}
+import http.Protocol._
 import org.http4s.Status.Successful
 import org.http4s.circe.CirceEntityCodec._
 import org.http4s.client.Client
-import org.http4s.{HttpRoutes, _}
-import org.http4s.dsl.io.{->, /, Ok, POST, Root, _}
-import org.http4s.server.blaze.BlazeServerBuilder
 import org.http4s.client.blaze.BlazeClientBuilder
 import org.http4s.client.dsl.io._
-import org.http4s.headers._
+import org.http4s.dsl.io.{->, /, Ok, POST, Root, _}
 import org.http4s.implicits._
-import org.http4s.multipart.{Multipart, Part}
 import org.http4s.server.blaze.BlazeServerBuilder
+import org.http4s.{HttpRoutes, _}
 
-import java.time.Instant
 import java.util.concurrent.ThreadLocalRandom
 import scala.concurrent.ExecutionContext
-import scala.util.Random
 
 // Homework. Place the solution under `http` package in your homework repository.
 //
@@ -247,8 +233,8 @@ object GuessClient extends IOApp {
 private final class GuessGameClient(client: Client[IO], uri: Uri) extends GuessGame[IO] {
   import io.circe.Codec
   import io.circe.generic.auto._
-  import org.http4s.circe.CirceEntityCodec._
   import io.circe.generic.extras.semiauto.deriveEnumerationCodec
+  import org.http4s.circe.CirceEntityCodec._
   implicit val validationErrorCodec: Codec[ValidationError] =
     deriveEnumerationCodec[ValidationError]
   implicit val guessResultCodec: Codec[GuessResult] = deriveEnumerationCodec[GuessResult]
