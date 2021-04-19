@@ -1,7 +1,8 @@
 package cats_effects
 
 import cats.Monad
-import cats.implicits._
+import cats.syntax.all._
+import cats.effect.syntax.all._
 import cats.effect.concurrent.Ref
 import cats.effect.{Async, Clock, Concurrent, ExitCode, IO, IOApp, Sync, Timer}
 import cats.effect.implicits._
@@ -59,7 +60,7 @@ object SharedStateHomework extends IOApp {
         _   <- T.sleep(runInterval)
         _   <- evictCache()
         run <- running.get
-        _   <- if (run) runMaintenanceLoop(runInterval) else Monad[F].pure(())
+        _   <- if (run) runMaintenanceLoop(runInterval) else ().pure[F]
       } yield ()
     }
 
@@ -74,10 +75,11 @@ object SharedStateHomework extends IOApp {
   }
 
   object Cache {
-    def of[F[_]: Clock: Monad, K, V](
+    def of[F[_]: Async, K, V](
         expiresIn: FiniteDuration,
         checkOnExpirationsEvery: FiniteDuration
     )(implicit T: Timer[F], C: Concurrent[F]): F[Cache[F, K, V]] = {
+
       for {
         state   <- Ref.of[F, Map[K, (Long, V)]](Map.empty)
         running <- Ref.of(true)
