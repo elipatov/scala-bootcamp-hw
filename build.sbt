@@ -40,6 +40,8 @@ libraryDependencies ++= Seq(
   "io.circe" %% "circe-optics" % circeVersion,
   "io.circe" %% "circe-parser" % circeVersion,
   "org.tpolecat" %% "atto-core" % "0.9.3",
+  "org.slf4j" % "slf4j-nop" % "1.6.4",
+  "ch.qos.logback" % "logback-classic" % "1.2.3",
   "org.scalatest" %% "scalatest" % "3.2.3" % Test,
   "org.scalaj" %% "scalaj-http" % "2.4.2" % Test,
   "org.scalacheck" %% "scalacheck" % "1.15.3" % Test,
