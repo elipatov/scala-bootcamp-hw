@@ -2,6 +2,7 @@ package cats
 
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.should.Matchers
+import akka.BinaryTreeSet.Operation._
 
 class CatsExercises extends AnyFreeSpec with Matchers{
   "cats" - {
